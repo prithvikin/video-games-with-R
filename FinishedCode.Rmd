@@ -1,0 +1,310 @@
+---
+title: "Final Project"
+author: "Anav Singh and Prithvi Kinariwala"
+date: "4/28/2020"
+output: pdf_document
+---
+Loading Data Set and Packages
+```{r}
+videogames=read.csv("C:\\Users\\Prithvi Kinariwala\\Desktop\\First_Year\\2nd Semester\\STAT 1601\\Final Project\\vgsales.csv")
+vgsales=videogames
+library(dplyr)
+library(ggplot2)
+```
+
+# Question 1: What years saw the greatest amount of game releases?
+## Data Wrangling
+```{r}
+yeargames=videogames
+yeargames<-yeargames[!(yeargames$Year=="N/A" ),]
+```
+
+## Data Visualization
+```{r}
+ggplot(data = yeargames, mapping = aes(x =Year, fill= Platform)) + geom_bar()+ theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))+labs(x = "Year", y="Number of Games Published",
+     title = "Games Published 1980-2016")
+```
+
+# Question 2: Are certain gaming platforms more violent than others?
+## Data Wrangling
+```{r}
+violentgames=videogames
+# For-loop to classify certain genres as Violent and others as Non-violent
+Violent = NULL
+for(i in 1:nrow(violentgames))
+{
+    if(violentgames[i,5]=="Action"|violentgames[i,5]=="Fighting"|violentgames[i,5]=="Shooter" ){Violent[i]<-"Violent"}
+    else{Violent[i]<-"Not Violent"}
+}
+
+# For-loop to classify platforms by platform manufacterers 
+ConsoleMaker = NULL
+for(i in 1:nrow(violentgames))
+{
+    if(violentgames[i,3]=="DS"|violentgames[i,3]=="3DS"|violentgames[i,3]=="GB"|violentgames[i,3]=="GBA"|violentgames[i,3]=="N64"|violentgames[i,3]=="NES"|violentgames[i,3]=="Wii"|violentgames[i,3]=="WiiU"){ConsoleMaker[i]<-"Nintendo"}
+    else if(violentgames[i,3]=="PS"|violentgames[i,3]=="PS2"|violentgames[i,3]=="PS3"|violentgames[i,3]=="PS4"|violentgames[i,3]=="PSP"|violentgames[i,3]=="PSV"){ConsoleMaker[i]<-"Sony"}
+  else if(violentgames[i,3]=="X360"|violentgames[i,3]=="XB"|violentgames[i,3]=="XOne"){ConsoleMaker[i]<-"Microsoft"}
+  else{violentgames[-i]}
+}
+
+# Binding Data Together and Ommitting0 "N/A"s
+violentData=cbind(violentgames,Violent,ConsoleMaker)
+violentData <- na.omit(violentData)
+```
+
+## Data Visualization
+Count by Platform Brand
+```{r}
+ggplot(data = violentData, mapping = aes(x =Platform,fill= Violent)) + 
+    geom_bar()+facet_wrap(~ConsoleMaker)+
+    labs(y="Number of Video Games",
+         title = "Violence in Video Games by Major Platform Making Companies") +
+    theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))+scale_fill_manual(values = c("steelblue1","tomato2"))
+```
+
+Percent Composition by Platform Brand
+```{r}
+ggplot(data = violentData, mapping = aes(x =Platform,fill= Violent)) + 
+     geom_bar(position="fill")+facet_wrap(~ConsoleMaker)+
+     labs(y="Percent Composition",
+          title = "Violence in Video Games by Platform Making Companies") +     theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))+scale_fill_manual(values = c("steelblue1","tomato2"))
+```
+
+## Summarizing Data
+```{r}
+library(dplyr)
+violence_two_way_table <- violentData %>%
+  group_by(ConsoleMaker, Violent) %>% 
+  summarize(count = n())
+  
+violence_two_way_table
+```
+
+Platform Brand Violence Proportions
+```{r}
+# Microsoft Platform Violent Games Proportion
+1035/(1035+1267)
+
+# Nintendo Platform Violent Games Proportion
+1400/(1400+4077)
+
+# Sony Platform Violent Games Proportion
+2300/(2300+4348)
+```
+# Question 3: Are shooting games more popular in America than other genres?
+
+# statistical Inference
+Are mean sales of shooting games in America different from mean sales for rest of the genres in America?
+
+Sample means by genre:
+```{r}
+vgsales %>%
+group_by(Genre) %>%
+summarise(mean_genre = mean(NA_Sales))
+```
+
+ANOVA
+```{r}
+anova_vg = aov(NA_Sales~Genre, vgsales)
+summary(anova_vg)
+```
+Reject the null, we have evidence to conclude that atleast one of the population means for NA Sales across genres is different. 
+
+Multiple Hypothesis Testing 
+```{r}
+anova_vg = aov(NA_Sales~Genre, vgsales)
+glimpse(TukeyHSD(anova_vg))
+```
+
+Shooter vs Others (NA)
+
+Shooter>Action
+Shooter>Adventure
+Shooter>Fighting
+Shooter>Misc 
+Shooter Platform        
+Shooter>Puzzle           
+Shooter>Racing           
+Shooter>Role-Playing     
+Simulation<Shooter     
+Sports<Shooter 
+Strategy<Shooter 
+
+After an analysis of mean sales of Shooter games compared to other genres in North America, we found that the it was greater than all other genres except Platform, where the confidence interval of the difference between the means contained 0. Thus we cannot make any conclusions between the mean sales for Shooter and Platform.
+
+Comparison with EU
+```{r}
+vgsales %>%
+group_by(Genre) %>%
+summarise(mean_genre = mean(EU_Sales))
+
+anova_eu = aov(EU_Sales~Genre, vgsales)
+summary(anova_eu)
+
+glimpse(TukeyHSD(anova_eu))
+```
+
+Shooter vs Others (EU)
+
+Shooter>Action
+Shooter>Adventure
+Shooter>Fighting
+Shooter>Misc
+Shooter Platform
+Shooter>Puzzle
+Shooter Racing
+Shooter>Role-Playing
+Simulation<Shooter
+Sports<Shooter
+Strategy<Shooter
+
+After an analysis of mean sales of Shooter games compared to other genres in Europe, we found that the it was greater than all other genres except Platform and Racing, where the confidence interval of the difference between the means contained 0. Thus we cannot make any conclusions between the mean sales for Shooter and Platform, and Shooter and Racing.
+
+Comparision with Japan
+```{r}
+vgsales %>%
+group_by(Genre) %>%
+summarise(mean_genre = mean(JP_Sales))
+
+anova_jp = aov(JP_Sales~Genre, vgsales)
+summary(anova_jp)
+
+glimpse(TukeyHSD(anova_jp))
+```
+
+Shooting vs Others (Japan)
+
+Shooter Action
+Shooter Adventure
+Shooter<Fighting
+Shooter Misc
+Shooter<Platform
+Shooter<Puzzle
+Shooter Racing
+Shooter<Role-Playing
+Simulation>Shooter
+Sports Shooter
+Strategy Shooter
+
+After an analysis of mean sales of Shooter games compared to other genres in Europe, we found that the it was inconclusive for many genres, and less than many others. It shows Shooter games are not very popular in Japan.
+
+Platform games dominated almost every early release game pre-2000s, and thus may influence sales and skew data and not give us a clear idea of current popularity statistics in the US.
+
+Comparing Platform and Shooter, post 2000
+
+Post-2000 data, Years = Years since 1980
+```{r}
+yeargames<-vgsales[!(vgsales$Year=="N/A" ),]
+numeric_year = transform(yeargames, Year = as.numeric(Year))
+data_2005 = numeric_year[which(numeric_year$Year > 25),]
+final_data = data_2005[which(data_2005$Genre == "Platform" | data_2005$Genre == "Shooter"),]
+
+t.test(NA_Sales ~ Genre, final_data, conf.level = 0.90)
+```
+We are 90% confident that the mean sales for Platform games is between 223897.87 and 13249.81 dollars lower than Shooter games.
+
+```{r}
+t.test(NA_Sales ~ Genre, final_data, alternative = "less")
+```
+level of significance = 10%
+p-value = 3.21%
+
+We have enough statistical evidence to conclude that mean sales for Platform games are less than Shooter games. This makes shooter games the more popular gaming genre in the USA. 
+
+
+# Question 4: Is PlayStation better than Xbox?
+* Comparing average sales by platform
+* Comparing proportion of games released by platform
+
+## Statistical Inferencing 
+Characterize Platforms as Xbox/PlayStation
+```{r}
+vgsales2 = vgsales %>%
+mutate(Xbox_or_Playstation = ifelse(grepl("X", Platform), "Xbox", ifelse(grepl("PS", Platform), "PlayStation", NA)))
+
+vgsales2 = vgsales2[-(which(vgsales2$Platform == "PCFX")),]
+
+vgsales3 = vgsales2[-(which(vgsales2$Platform == "PSP" | vgsales2$Platform == "PSV")),]
+
+vgsales4 = na.omit(vgsales3)
+```
+
+Mean Sales
+```{r}
+library(dplyr)
+vgsales4 %>%
+group_by(Xbox_or_Playstation) %>%
+summarize(mean_sales = mean(Global_Sales))
+
+t.test(Global_Sales ~ Xbox_or_Playstation, vgsales4, conf.level = 0.95)
+t.test(Global_Sales ~ Xbox_or_Playstation, vgsales4, alternative = "greater")
+
+t.test(NA_Sales ~ Xbox_or_Playstation, vgsales4, conf.level = 0.95)
+t.test(NA_Sales ~ Xbox_or_Playstation, vgsales4, alternative = "less")
+```
+
+Proportion of Video Games
+```{r}
+library(RColorBrewer)
+library(ggplot2)
+ggplot(vgsales3, aes(x = Xbox_or_Playstation)) + geom_bar(fill = brewer.pal(3, "Set1"))+labs(y="Count", x="Console" ,title = "Video Games per Platform")
+
+prop.test(c(5022,2302), c(14971,14971), conf.level = 0.95)
+prop.test(c(5022,2302), c(14971,14971), alternative = "greater")
+```
+We are 95% confident that the proportion of PlayStation games is between 0.1721000 and 0.1912692 higher than the proportion of Xbox games, of the total games released. 
+
+We have enough statistical evidence to conclude that the proportion of PlayStation games is higher than the proportion of Xbox games, of the total games released.
+
+# Question 5: Are North American or Japanese sales better at indicating how a video game does globally?
+
+## Data Wrangling
+```{r}
+videogamessales=videogames
+# Labeling Games by platform brand
+ConsoleCreator = NULL
+for(i in 1:nrow(videogamessales))
+{
+    if(videogamessales[i,3]=="DS"|videogamessales[i,3]=="3DS"|videogamessales[i,3]=="GB"|videogamessales[i,3]=="GBA"|videogamessales[i,3]=="N64"|videogamessales[i,3]=="NES"|videogamessales[i,3]=="Wii"|videogamessales[i,3]=="WiiU"){ConsoleCreator[i]<-"Nintendo"}
+    else if(videogamessales[i,3]=="PS"|videogamessales[i,3]=="PS2"|videogamessales[i,3]=="PS3"|videogamessales[i,3]=="PS4"|videogamessales[i,3]=="PSP"|videogamessales[i,3]=="PSV"){ConsoleCreator[i]<-"Sony"}
+  else if(videogamessales[i,3]=="X360"|videogamessales[i,3]=="XB"|videogamessales[i,3]=="XOne"){ConsoleCreator[i]<-"Microsoft"}
+  else{ConsoleCreator[i]<-"Other"}
+}
+
+# Binding two columns together
+VideoGamesConsole=cbind(videogamessales,ConsoleCreator)
+```
+
+## Data Visualization
+North American Sales vs Global Sales Without Groups
+```{r}
+library(ggplot2)
+ggplot(data = videogames, mapping = aes(x = NA_Sales, y =Global_Sales)) +   geom_point(alpha=0.25)+
+  labs(x = "North America Sales (million)",y="Global Sales (million)",title="Global Sales by North American Sales") +geom_smooth(method = "lm", se = FALSE)
+```
+
+Japan Sales vs Global Sales Without Groups
+```{r}
+library(ggplot2)
+ggplot(data = videogames, mapping = aes(x = JP_Sales, y =Global_Sales)) +   geom_point(alpha=0.25)+
+  labs(x = "Japan Sales (million)",y="Global Sales (million)",title="Global Sales by Japanese Sales") +geom_smooth(method = "lm", se = FALSE)
+```
+
+## Linear Regression
+North America/Global Sales Linearization Model
+```{r}
+NAGlobalModel<-lm(Global_Sales ~ NA_Sales, data = videogames)
+summary(NAGlobalModel)
+```
+
+Japan/Global Sales Linearization Model
+```{r}
+JPGlobalModel<-lm(Global_Sales ~ JP_Sales, data = videogames)
+summary(JPGlobalModel)
+```
+
+North America/Global Sales Prediction
+```{r}
+predictData<-data.frame(NA_Sales=c(35, 45))
+predict(NAGlobalModel, predictData)
+```
