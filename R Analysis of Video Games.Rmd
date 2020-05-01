@@ -18,9 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 Video games sales across a time period were analyzed to find answers to questions regarding sales, genres, violence in video games and regional predictions. Some of the key findings were that 2008 and 2009 featured the greatest number of games entering the market due to an overlap in console generations. Microsoft and Sony platforms tend to have more violent games than Nintendo platforms, due to the console's target audiences. Shooting games were more popular in America compared to other regions, perhaps because of the country’s fascination with guns and their ownership along with the establishment of longtime shooter franchises. PlayStation ranked better than Xbox on our indicator of game variety, and Xbox ranked better on sales in North America. However, they both were inconclusive based on global sales. Thus, globally, we could say that the PlayStation is the better console and temporarily settle the long-ongoing debate between its respective users. Our last finding concluded that the North American market is a better indicator of how a game released domestically would do internationally than the Japanese market. Furthermore, games on Microsoft’s platforms depend less on Japanese markets than games on Nintendo’s platforms depend on American markets. 
 
 ## Including Code
-```{r, echo=False}
-library(ggplot2)
-```
+
 
 You can include R code in the document as follows:
 
