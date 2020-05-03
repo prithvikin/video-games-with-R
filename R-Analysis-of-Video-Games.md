@@ -2,53 +2,60 @@ Statistical and Graphical Analysis of 1980-2016 Video Games Sales
 ================
 Prithvi Kinariwala & Anav Singh
 
-  - [Abstract](#abstract)
-  - [Including Code](#including-code)
-  - [Including Plots](#including-plots)
-
-## Abstract
-
-Video games sales across a time period were analyzed to find answers to
-questions regarding sales, genres, violence in video games and regional
-predictions. Some of the key findings were that 2008 and 2009 featured
-the greatest number of games entering the market due to an overlap in
-console generations. Microsoft and Sony platforms tend to have more
-violent games than Nintendo platforms, due to the console’s target
-audiences. Shooting games were more popular in America compared to other
-regions, perhaps because of the country’s fascination with guns and
-their ownership along with the establishment of longtime shooter
-franchises. PlayStation ranked better than Xbox on our indicator of game
-variety, and Xbox ranked better on sales in North America. However, they
-both were inconclusive based on global sales. Thus, globally, we could
-say that the PlayStation is the better console and temporarily settle
-the long-ongoing debate between its respective users. Our last finding
-concluded that the North American market is a better indicator of how a
-game released domestically would do internationally than the Japanese
-market. Furthermore, games on Microsoft’s platforms depend less on
-Japanese markets than games on Nintendo’s platforms depend on American
-markets.
-
-## Including Code
-
-You can include R code in the document as follows:
+  - [Introduction](#introduction)
+      - [Data](#data)
+      - [](#section)
+  - [Research Questions (and
+    Answers\!)](#research-questions-and-answers)
+  - [Conclusion](#conclusion)
+  - [Limitations](#limitations)
+  - [Works Cited](#works-cited)
 
 ``` r
-summary(cars)
+library(ggplot2)
 ```
 
-    ##      speed           dist       
-    ##  Min.   : 4.0   Min.   :  2.00  
-    ##  1st Qu.:12.0   1st Qu.: 26.00  
-    ##  Median :15.0   Median : 36.00  
-    ##  Mean   :15.4   Mean   : 42.98  
-    ##  3rd Qu.:19.0   3rd Qu.: 56.00  
-    ##  Max.   :25.0   Max.   :120.00
+## Introduction
 
-## Including Plots
+Video games have become the basis of millions of childhoods across the
+world. Generations can attest to ubiquitous Pacman, legendary Zelda, the
+adventurous Mario Brothers, and brave Master Chief. From these legends
+have arisen corporate conglomerates, cutting-edge computational power,
+and a yearning fanbase.
 
-You can also embed plots, for example:
+However, what pushes some games to the top and others to crash? What
+platforms are more “violent?” What region loves their sacred controllers
+and game cartridges the most? Would releasing a game in North America be
+more beneficial than releasing in Japan? Although these are questions of
+an over-achieving gamer, the quest was to get the bottom of some of them
+with R and a public dataset.
 
-![](R-Analysis-of-Video-Games_files/figure-gfm/pressure-1.png)<!-- -->
+### Data
 
-Note that the `echo = FALSE` parameter was added to the code chunk to
-prevent printing of the R code that generated the plot.
+Video games and their respective sales from 1980-2016 were analyzed to
+find answers to questions regarding sales, genres, violence in video
+games and regional predictions. The public data set attained from
+[Kaggle](www.%20https://www.kaggle.com/gregorut/videogamesales.com)
+contained:
+
+  - Rank - Ranking of overall sales
+  - Name - The games name
+  - Platform - Platform of the games release (i.e. PC,PS4, etc.)
+  - Year - Year of the game’s release
+  - Genre - Genre of the game
+  - Publisher - Publisher of the game
+  - NA\_Sales - Sales in North America (in millions)
+  - EU\_Sales - Sales in Europe (in millions)
+  - JP\_Sales - Sales in Japan (in millions)
+  - Other\_Sales - Sales in the rest of the world (in millions)
+  - Global\_Sales - Total worldwide sales.
+
+### 
+
+## Research Questions (and Answers\!)
+
+## Conclusion
+
+## Limitations
+
+## Works Cited
