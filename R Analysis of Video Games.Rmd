@@ -1,6 +1,7 @@
 ---
 title: "Statistical and Graphical Analysis of 1980-2016 Video Games Sales"
 author: "Prithvi Kinariwala"
+always_allow_html: true
 output: 
   github_document:
     toc: true
@@ -32,15 +33,12 @@ Video games and their respective sales from 1980-2016 were analyzed to find answ
 * Global_Sales - Total worldwide sales.
 
 Once the data from Kaggle is downloaded, load it as a csv into RStudio. The `file.choose()` command can be used to locate the filepath for the file.
-```{r loadingData, eval=FALSE}
-vgsales=read.csv("C:\\...\\vgsales.csv")
-```
 ```{r}
-dfadf
+vgsales=read.csv("C:\\Users\\Prithvi Kinariwala\\Documents\\video-games-with-R\\vgsales.csv")
 ```
+You'll only need to import the data once, as we'll copy it within the RStudio environment for separate data wrangling. 
 
-
-
+*Keep in mind that the data is only complete from years 1980-2016. Games marked as released past 2016 are predictions and not concrete data*
 
 ### The Tools
 > "It's dangerous to go alone! Take this."    -Old Man, The Legend of Zelda
@@ -58,10 +56,11 @@ Next you'll need to "activate" the individual libraries.
 library(ggplot2)
 library(dplyr)
 library(RColorBrewer)
+library(plotly)
 ```
 
-## Research Questions (and Answers!)
-Questions explored were:
+### The Questions
+Questions explored were:  
 
 1. What years saw the greatest amount of game releases?
 2. Are certain gaming platforms more violent than others?
@@ -69,8 +68,29 @@ Questions explored were:
 4. Is PlayStation better than Xbox?
 5. Are North American or Japanese sales better at indicating how a video game does globally?
 
-### Question 1: What years saw the greatest amount of game releases?
 
+## Research Questions (and Answers!)
+
+### What years saw the greatest amount of game releases?
+Since the creation of the first rudimentary Pong game, video game development has spread across the world with demand. International developers push out games for well-known franchises as well as iconic standalones. Although it is safe to assume that more games are in circulation now than at the advent of video gaming, to what extent is this difference? When exactly were the greatest amount of video games produced and what platform was the most popular?  
+
+The best visual would be a bar graph with the release years as the  x-axis. But first, you'll need to clean up the data by removing games with "N/A" as the year. We make a copy of the data and clean up the copy only as data wrangling differs from question to question.
+```{r}
+yeargames=vgsales
+yeargames<-yeargames[!(yeargames$Year=="N/A" ),]
+```
+Next, use the `ggplot` library to create a graph.
+```{r graph1A}
+graph1=ggplot(data = yeargames, mapping = aes(x =Year, fill= Platform)) +
+  geom_bar()+
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))+
+  labs(x = "Year", y="Number of Games Published",title = "Games Published 1980-2016")
+```
+Finally, use the `plotly` library to create an interactive graph that shows statistics when rolling over data.  
+*Note: If knitting to a PDF, the PDF can not support the interactive elements of the plotly library. Instead, use only the ggplot library to create a non-interactive graph.*
+```{r}
+ggplotly(graph1)
+```
 
 
 ## Conclusion

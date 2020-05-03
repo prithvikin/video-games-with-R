@@ -6,8 +6,7 @@ output: pdf_document
 ---
 Loading Data Set and Packages
 ```{r}
-videogames=read.csv("C:\\Users\\Prithvi Kinariwala\\Desktop\\First_Year\\2nd Semester\\STAT 1601\\Final Project\\vgsales.csv")
-vgsales=videogames
+vgsales=read.csv("C:\\Users\\Prithvi Kinariwala\\Desktop\\First_Year\\2nd Semester\\STAT 1601\\Final Project\\vgsales.csv")
 library(dplyr)
 library(ggplot2)
 ```
@@ -15,7 +14,7 @@ library(ggplot2)
 # Question 1: What years saw the greatest amount of game releases?
 ## Data Wrangling
 ```{r}
-yeargames=videogames
+yeargames=vgsales
 yeargames<-yeargames[!(yeargames$Year=="N/A" ),]
 ```
 
@@ -25,10 +24,20 @@ ggplot(data = yeargames, mapping = aes(x =Year, fill= Platform)) + geom_bar()+ t
      title = "Games Published 1980-2016")
 ```
 
+```{r}
+library(plotly)
+
+g=ggplot(data = yeargames, mapping = aes(x =Year, fill= Platform)) + geom_bar()+ theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))+labs(x = "Year", y="Number of Games Published",title = "Games Published 1980-2016")
+ggplotly(g)
+```
+
+
+
+
 # Question 2: Are certain gaming platforms more violent than others?
 ## Data Wrangling
 ```{r}
-violentgames=videogames
+violentgames=vgsales
 # For-loop to classify certain genres as Violent and others as Non-violent
 Violent = NULL
 for(i in 1:nrow(violentgames))
@@ -260,7 +269,7 @@ We have enough statistical evidence to conclude that the proportion of PlayStati
 
 ## Data Wrangling
 ```{r}
-videogamessales=videogames
+videogamessales=vgsales
 # Labeling Games by platform brand
 ConsoleCreator = NULL
 for(i in 1:nrow(videogamessales))
@@ -279,27 +288,27 @@ VideoGamesConsole=cbind(videogamessales,ConsoleCreator)
 North American Sales vs Global Sales Without Groups
 ```{r}
 library(ggplot2)
-ggplot(data = videogames, mapping = aes(x = NA_Sales, y =Global_Sales)) +   geom_point(alpha=0.25)+
+ggplot(data = vgsales, mapping = aes(x = NA_Sales, y =Global_Sales)) +   geom_point(alpha=0.25)+
   labs(x = "North America Sales (million)",y="Global Sales (million)",title="Global Sales by North American Sales") +geom_smooth(method = "lm", se = FALSE)
 ```
 
 Japan Sales vs Global Sales Without Groups
 ```{r}
 library(ggplot2)
-ggplot(data = videogames, mapping = aes(x = JP_Sales, y =Global_Sales)) +   geom_point(alpha=0.25)+
+ggplot(data = vgsales, mapping = aes(x = JP_Sales, y =Global_Sales)) +   geom_point(alpha=0.25)+
   labs(x = "Japan Sales (million)",y="Global Sales (million)",title="Global Sales by Japanese Sales") +geom_smooth(method = "lm", se = FALSE)
 ```
 
 ## Linear Regression
 North America/Global Sales Linearization Model
 ```{r}
-NAGlobalModel<-lm(Global_Sales ~ NA_Sales, data = videogames)
+NAGlobalModel<-lm(Global_Sales ~ NA_Sales, data = vgsales)
 summary(NAGlobalModel)
 ```
 
 Japan/Global Sales Linearization Model
 ```{r}
-JPGlobalModel<-lm(Global_Sales ~ JP_Sales, data = videogames)
+JPGlobalModel<-lm(Global_Sales ~ JP_Sales, data = vgsales)
 summary(JPGlobalModel)
 ```
 
