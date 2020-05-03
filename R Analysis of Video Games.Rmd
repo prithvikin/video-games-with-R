@@ -31,13 +31,32 @@ Video games and their respective sales from 1980-2016 were analyzed to find answ
 * Other_Sales - Sales in the rest of the world (in millions)
 * Global_Sales - Total worldwide sales.
 
+Once the data from Kaggle is downloaded, load it as a csv into RStudio. The `file.choose()` command can be used to locate the filepath for the file.
+```{r loadingData, eval=FALSE}
+vgsales=read.csv("C:\\...\\vgsales.csv")
+```
+```{r}
+dfadf
+```
+
+
+
+
 ### The Tools
 > "It's dangerous to go alone! Take this."    -Old Man, The Legend of Zelda
 
-Every journey requires the right tools. For this one, the following R libraries were used:
+Every journey requires the right tools. For this one, the following R libraries were used. Installations are only needed once per R installation.
+```{r installation, eval=FALSE}
+install.packages("ggplot2")
+install.packages("dplyr")
+install.packages("RColorBrewer")
+install.packages("plotly")
+```
+
+Next you'll need to "activate" the individual libraries. 
 ```{r packages, results="hide", warning=FALSE, message=FALSE}
-library(dplyr)
 library(ggplot2)
+library(dplyr)
 library(RColorBrewer)
 ```
 
@@ -49,6 +68,8 @@ Questions explored were:
 3. Are shooting games more popular in America?
 4. Is PlayStation better than Xbox?
 5. Are North American or Japanese sales better at indicating how a video game does globally?
+
+### Question 1: What years saw the greatest amount of game releases?
 
 
 
