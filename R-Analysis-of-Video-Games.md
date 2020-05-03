@@ -1,19 +1,15 @@
 Statistical and Graphical Analysis of 1980-2016 Video Games Sales
 ================
-Prithvi Kinariwala & Anav Singh
+Prithvi Kinariwala
 
   - [Introduction](#introduction)
-      - [Data](#data)
-      - [](#section)
+      - [The Data](#the-data)
+      - [The Tools](#the-tools)
   - [Research Questions (and
     Answers\!)](#research-questions-and-answers)
   - [Conclusion](#conclusion)
   - [Limitations](#limitations)
   - [Works Cited](#works-cited)
-
-``` r
-library(ggplot2)
-```
 
 ## Introduction
 
@@ -30,7 +26,7 @@ more beneficial than releasing in Japan? Although these are questions of
 an over-achieving gamer, the quest was to get the bottom of some of them
 with R and a public dataset.
 
-### Data
+### The Data
 
 Video games and their respective sales from 1980-2016 were analyzed to
 find answers to questions regarding sales, genres, violence in video
@@ -50,11 +46,35 @@ contained:
   - Other\_Sales - Sales in the rest of the world (in millions)
   - Global\_Sales - Total worldwide sales.
 
-### 
+### The Tools
+
+> “It’s dangerous to go alone\! Take this.” -Old Man, The Legend of
+> Zelda
+
+Every journey requires the right tools. For this one, the following R
+libraries were used:
+
+``` r
+library(dplyr)
+library(ggplot2)
+library(RColorBrewer)
+```
 
 ## Research Questions (and Answers\!)
 
+Questions explored were:
+
+1.  What years saw the greatest amount of game releases?
+2.  Are certain gaming platforms more violent than others?
+3.  Are shooting games more popular in America?
+4.  Is PlayStation better than Xbox?
+5.  Are North American or Japanese sales better at indicating how a
+    video game does globally?
+
 ## Conclusion
+
+> “The numbers, Mason\! What do they mean?” -Jason Hudson, Call of Duty:
+> Black Ops
 
 ## Limitations
 
