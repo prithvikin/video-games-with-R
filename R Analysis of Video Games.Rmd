@@ -91,14 +91,82 @@ The maximum in the timeframe with given data was 2008 and 2009. This peak can be
 
 The following years depict a decrease in the number of games released mainly due to less game developers being able to create games to new graphics specifications of Seventh Console Generation games. Effectively put, creating games became much more intensive, with teams dedicated to specific functions, like graphics. The change between the Seventh Console Generation and Eighth Console Generation should portray the same, as seen with the drop in games in 2012-2016. In summary, as platforms become more powerful, less game studios can create games that use the full technical capacity desired by consumers. 
 
-```{r}
-library(plotly)
-graph1=ggplot(data = yeargames, mapping = aes(x =Year, fill= Platform)) + geom_bar()+ theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))+labs(x = "Year", y="Number of Games Published",title = "Games Published 1980-2016")
-ggplotly(graph1)
-```
 
 ### Are certain gaming platforms more violent than others?
 
+Video game platforms, like video games, have target audiences. This audience targeting is often done with the creation and release of video games exclusive to certain platforms as well as establishing developmental tools and game engines that certain genres lend themselves well to. Mario Kart's players will never throw shells on non-Nintendo platforms, Microsoft won't let Master Chief save the UNSC on a PlayStation, nor is Uncharted leaving Sony's tight grasp.
+
+Game developers use hardware differences to create unique games for respective platforms. Nintendo’s origins have naturally evolved into platform games with Nintendo originals being the most popular. Games like Mario Kart, Mario Party, Super Smash Bros., and Wii Sports series are Nintendo’s incentives for buying it’s consoles. On the other hand, action, shooter, and fighting games like the Halo, *mostly* Call of Duty, and Grand Theft Auto series are only offered on Xbox and PlayStation consoles. Thus, the *assumptions* made by critics attribute the Xbox and PlayStation to being more violent than their Nintendo counterparts. 
+
+*Sidenote: Although Nintendo has recently released the Switch, the company has pushed games similar to its older generations. Due to its recent release and a lack of data, the Switch was not considered for the report.*
+
+To tackle the question, a graphical analysis alongside population parameters would be sufficient. The action, shooter, and fighting genres were determined to be “violent" while all other genres were determined “not violent.” Counts and percentages should be analyzed to find platforms more violent than others.
+
+Before generating the graphs, we need to add two more character vectors (columns) to the data. One for the major platform brand (Microsoft, Nintendo, Sony) and one to classify genres as violent or not. Like the first question, we create a copy of the first data set to create a unique data set after wrangling. Then, each new vector starts out empty at `NULL` before the for-loop iterates each row while determining each row.
+```{r}
+violentgames=vgsales
+
+# For-loop to classify certain genres as Violent and others as Non-violent
+Violent = NULL
+for(i in 1:nrow(violentgames))
+{
+    if(violentgames[i,5]=="Action"|violentgames[i,5]=="Fighting"|violentgames[i,5]=="Shooter" ){Violent[i]<-"Violent"}
+    else{Violent[i]<-"Not Violent"}
+}
+
+# For-loop to classify platforms by platform manufacterers 
+ConsoleMaker = NULL
+for(i in 1:nrow(violentgames))
+{
+  if(violentgames[i,3]=="DS"|violentgames[i,3]=="3DS"|violentgames[i,3]=="GB"|violentgames[i,3]=="GBA"|violentgames[i,3]=="N64"|violentgames[i,3]=="NES"|violentgames[i,3]=="Wii"|violentgames[i,3]=="WiiU"){ConsoleMaker[i]<-"Nintendo"}
+  else if(violentgames[i,3]=="PS"|violentgames[i,3]=="PS2"|violentgames[i,3]=="PS3"|violentgames[i,3]=="PS4"|violentgames[i,3]=="PSP"|violentgames[i,3]=="PSV"){ConsoleMaker[i]<-"Sony"}
+  else if(violentgames[i,3]=="X360"|violentgames[i,3]=="XB"|violentgames[i,3]=="XOne"){ConsoleMaker[i]<-"Microsoft"}
+  else{violentgames[-i]}
+}
+```
+Finally, we bind the seperate vectors with the video games data and remove any lingering "N/A"s.
+```{r}
+violentData=cbind(violentgames,Violent,ConsoleMaker)
+violentData <- na.omit(violentData)
+```
+Now that we have prepared the data, we can finally start graphing! The first graph is a simple game count by platform split between violent and non-violent games. A stacked bar graph is perfect on illustrating many properties at once.
+```{r violentgraph-counts}
+ggplot(data = violentData, mapping = aes(x =Platform,fill= Violent)) + 
+  geom_bar()+facet_wrap(~ConsoleMaker)+
+  labs(y="Number of Video Games",title = "Violence in Video Games by Major Platform Making Companies")+
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))+scale_fill_manual(values = c("steelblue1","tomato2"))
+```
+  
+Let's get a percent bar graph to get another insight! Mind that less-popular platforms will have their differences blown out of proportion *cough cough Wii U*.
+```{r violentgraph-percents}
+ggplot(data = violentData, mapping = aes(x =Platform,fill= Violent))+ 
+  geom_bar(position="fill")+facet_wrap(~ConsoleMaker)+
+  labs(y="Percent Composition",title = "Violence in Video Games by Platform Making Companies")+
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))+scale_fill_manual(values = c("steelblue1","tomato2"))
+```
+  
+Although you should be able to see visual differences between the three major brands, the last metric to answer the question would be the population parameters themselves. We can use the `dplyr` package to create two-way table commands to give us counts that can be used to find the parameters.
+```{r}
+violence_two_way_table <- violentData %>%
+  group_by(ConsoleMaker, Violent) %>% 
+  summarize(count = n())
+violence_two_way_table
+```
+From these numbers, we find the proportions with one of the most basic functions of R, its calculator!
+```{r}
+# Microsoft Platform Violent Games Proportion
+1035/(1035+1267)
+
+# Nintendo Platform Violent Games Proportion
+1400/(1400+4077)
+
+# Sony Platform Violent Games Proportion
+2300/(2300+4348)
+```
+
+The figures show that the Xbox 360 has more violent games than any Nintendo platform. The same relationship is true of PlayStation 2 and PlayStation 3 over the Nintendo Platform as well. This relationship is further seen in the percent bar graphs, where WiiU’s data is skewed only due to considerably less games being created for its platform before being discontinued. After using the dplyr two-way-table function to create a list of violent and nonviolent counts by platform company, Microsoft had the greatest percent of violent games (44.96%) followed by Sony (34.60%) and lastly Nintendo (25.56%). The data indicates that Nintendo platforms tend to be less violent than Microsoft and Sony platforms.
+
+Does this mean you should never buy your child a Xbox or PlayStation? **No.** My first game was Halo 2, and I turned out alright!
 
 
 ## Conclusion
