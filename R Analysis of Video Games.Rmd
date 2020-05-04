@@ -91,6 +91,16 @@ The maximum in the timeframe with given data was 2008 and 2009. This peak can be
 
 The following years depict a decrease in the number of games released mainly due to less game developers being able to create games to new graphics specifications of Seventh Console Generation games. Effectively put, creating games became much more intensive, with teams dedicated to specific functions, like graphics. The change between the Seventh Console Generation and Eighth Console Generation should portray the same, as seen with the drop in games in 2012-2016. In summary, as platforms become more powerful, less game studios can create games that use the full technical capacity desired by consumers. 
 
+```{r}
+library(plotly)
+graph1=ggplot(data = yeargames, mapping = aes(x =Year, fill= Platform)) + geom_bar()+ theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))+labs(x = "Year", y="Number of Games Published",title = "Games Published 1980-2016")
+ggplotly(graph1)
+```
+
+### Are certain gaming platforms more violent than others?
+
+
+
 ## Conclusion
 > "The numbers, Mason! What do they mean?" -Jason Hudson, Call of Duty: Black Ops
 
