@@ -9,7 +9,7 @@ Harnessing the power of R to create multiple data visualizations and statistical
 * [Interactive-Graphs.html](Interactive-Graphs.html): HTML file of interactive graphs. This page is not viewable with GitHub. It should be accessed at [the RPubs.com site](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs).
 * [video-games-with-R.Rproj](video-games-with-R.Rproj): R project file specifics.
 
-Due to compatibility issues between GitHub and Plotly, all interactive graphs are hosted externally on [at this projects page on RPubs.com](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs).
+Due to compatibility issues between GitHub and Plotly, all interactive graphs are hosted externally on [at the project's page on RPubs.com](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs).
 
 ## Overview
 This project answers specific research questions with a public Video Game data set. Research questions are answered using data visualization and statistical analysis techniques availible in R.  
