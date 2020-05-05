@@ -86,8 +86,7 @@ ggplot(data = yeargames, mapping = aes(x =Year, fill= Platform))+
   theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))+
   labs(x = "Year", y="Number of Games Published",title = "Games Published 1980-2016")
 ```
-*An interactive version of this graph (and the steps to create it) can be found [at the project's page on RPubs.com](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs)*
-
+*An interactive version of this graph (and the steps to create it) can be found [at  the project's page on RPubs.com](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs)*  
 The maximum in the timeframe with given data was 2008 and 2009. This peak can be attributed to an overlap between the Sixth Console Generation (1998-2013) and Seventh Console Generation (2005-present) as well as a new demand for handheld gaming. The two years have games for both Xbox and Xbox 360, PS2 and PS3, and handhelds like the Nintendo DS and PSP.  
 
 The following years depict a decrease in the number of games released mainly due to less game developers being able to create games to new graphics specifications of Seventh Console Generation games. Effectively put, creating games became much more intensive, with teams dedicated to specific functions, like graphics. The change between the Seventh Console Generation and Eighth Console Generation should portray the same, as seen with the drop in games in 2012-2016. In summary, as platforms become more powerful, less game studios can create games that use the full technical capacity desired by consumers. 
@@ -137,7 +136,8 @@ ggplot(data = violentData, mapping = aes(x =Platform,fill= Violent)) +
   labs(y="Number of Video Games",title = "Violence in Video Games by Major Platform Making Companies")+
   theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))+scale_fill_manual(values = c("steelblue1","tomato2"))
 ```
-*[An interactive version of this graph](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs)*
+  
+*[An interactive version of this graph](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs)*  
 Let's get a percent bar graph to get another insight! Mind that less-popular platforms will have their differences blown out of proportion *cough cough Wii U*.
 ```{r violentgraph-percents}
 ggplot(data = violentData, mapping = aes(x =Platform,fill= Violent))+ 
@@ -145,6 +145,7 @@ ggplot(data = violentData, mapping = aes(x =Platform,fill= Violent))+
   labs(y="Percent Composition",title = "Violence in Video Games by Platform Making Companies")+
   theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))+scale_fill_manual(values = c("steelblue1","tomato2"))
 ```
+  
 *[An interactive version of this graph](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs)*  
 Although you should be able to see visual differences between the three major brands, the last metric to answer the question would be the population parameters themselves. We can use the `dplyr` package to create two-way table commands to give us counts that can be used to find the parameters.
 ```{r}
@@ -338,6 +339,7 @@ For this comparison, we use the data including the NA (other console) values in 
 ```{r xbox_or_playstation}
 ggplot(vgsales3, aes(x = Xbox_or_Playstation)) + geom_bar(fill = brewer.pal(3, "Set1"))+labs(y="Count", x="Console" ,title = "Video Games per Platform")
 ```
+  
 *[An interactive version of this graph](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs)*  
 Using a bar graph, we can see that the number of games available for PlayStation is much higher than that for Xbox. We further this analysis by comparing the two proportions using a confidence interval with a confidence level of 95%. 
 ```{r}
@@ -358,6 +360,7 @@ ggplot(data = vgsales, mapping = aes(x = NA_Sales, y =Global_Sales))+
   labs(x = "North America Sales (million)",y="Global Sales (million)",title="Global Sales by North American Sales")+
   geom_smooth(method = "lm", se = FALSE)
 ```
+  
 *[An interactive version of this graph](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs)*
 ```{r}
 NAGlobalModel<-lm(Global_Sales ~ NA_Sales, data = vgsales)
@@ -372,6 +375,7 @@ ggplot(data = vgsales, mapping = aes(x = JP_Sales, y =Global_Sales))+
   labs(x = "Japan Sales (million)",y="Global Sales (million)",title="Global Sales by Japanese Sales")+
   geom_smooth(method = "lm", se = FALSE)
 ```
+  
 *[An interactive version of this graph](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs)*
 ```{r}
 JPGlobalModel<-lm(Global_Sales ~ JP_Sales, data = vgsales)

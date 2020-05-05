@@ -146,7 +146,9 @@ ggplot(data = yeargames, mapping = aes(x =Year, fill= Platform))+
 ```
 
 ![](R-Analysis-of-Video-Games_files/figure-gfm/timegraph-1.png)<!-- -->
-
+*An interactive version of this graph (and the steps to create it) can
+be found [at the project’s page on
+RPubs.com](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs)*  
 The maximum in the timeframe with given data was 2008 and 2009. This
 peak can be attributed to an overlap between the Sixth Console
 Generation (1998-2013) and Seventh Console Generation (2005-present) as
@@ -249,6 +251,8 @@ ggplot(data = violentData, mapping = aes(x =Platform,fill= Violent)) +
 
 ![](R-Analysis-of-Video-Games_files/figure-gfm/violentgraph-counts-1.png)<!-- -->
 
+*[An interactive version of this
+graph](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs)*  
 Let’s get a percent bar graph to get another insight\! Mind that
 less-popular platforms will have their differences blown out of
 proportion *cough cough Wii U*.
@@ -262,6 +266,8 @@ ggplot(data = violentData, mapping = aes(x =Platform,fill= Violent))+
 
 ![](R-Analysis-of-Video-Games_files/figure-gfm/violentgraph-percents-1.png)<!-- -->
 
+*[An interactive version of this
+graph](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs)*  
 Although you should be able to see visual differences between the three
 major brands, the last metric to answer the question would be the
 population parameters themselves. We can use the `dplyr` package to
@@ -781,6 +787,8 @@ ggplot(vgsales3, aes(x = Xbox_or_Playstation)) + geom_bar(fill = brewer.pal(3, "
 
 ![](R-Analysis-of-Video-Games_files/figure-gfm/xbox_or_playstation-1.png)<!-- -->
 
+*[An interactive version of this
+graph](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs)*  
 Using a bar graph, we can see that the number of games available for
 PlayStation is much higher than that for Xbox. We further this analysis
 by comparing the two proportions using a confidence interval with a
@@ -854,6 +862,9 @@ ggplot(data = vgsales, mapping = aes(x = NA_Sales, y =Global_Sales))+
 
 ![](R-Analysis-of-Video-Games_files/figure-gfm/na-global-sales-1.png)<!-- -->
 
+*[An interactive version of this
+graph](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs)*
+
 ``` r
 NAGlobalModel<-lm(Global_Sales ~ NA_Sales, data = vgsales)
 summary(NAGlobalModel)
@@ -898,6 +909,9 @@ ggplot(data = vgsales, mapping = aes(x = JP_Sales, y =Global_Sales))+
     ## `geom_smooth()` using formula 'y ~ x'
 
 ![](R-Analysis-of-Video-Games_files/figure-gfm/jp-global-sales-1.png)<!-- -->
+
+*[An interactive version of this
+graph](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs)*
 
 ``` r
 JPGlobalModel<-lm(Global_Sales ~ JP_Sales, data = vgsales)
