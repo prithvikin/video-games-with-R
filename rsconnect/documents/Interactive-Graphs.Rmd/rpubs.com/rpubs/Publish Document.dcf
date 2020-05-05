@@ -1,0 +1,10 @@
+name: Publish Document
+title:
+username:
+account: rpubs
+server: rpubs.com
+hostUrl: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/609696/2c32dbfe0ca44460ad034fef4b86a0a8
+bundleId: https://api.rpubs.com/api/v1/document/609696/2c32dbfe0ca44460ad034fef4b86a0a8
+url: http://rpubs.com/prithvikin/609696
+when: 1588703610.46576

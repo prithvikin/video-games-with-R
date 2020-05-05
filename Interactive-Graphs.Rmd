@@ -1,36 +1,46 @@
 ---
-title: "Interactive-Graphs"
+title: "Video Games with R - Interactive Graphs"
 author: "Prithvi Kinariwala"
-date: "5/5/2020"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+Few reminders:
 
+* This site should be refrenced after each plot is created in the main report.
+* The code here can be independently run and forked. Make sure this document is knit to HTML and **not** `github_document`.
+* This page requires that the `plotly` package be installed on in supplement to the packages in the main report.
+* This page should be viewed as HTML on RPubs.com and not on GitHub. If you are viewing this as a rmd on GitHub, access the HTML document [here](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs).
+
+Install Packages from CRAN:
 ```{r installation, eval=FALSE}
 install.packages("ggplot2")
 install.packages("dplyr")
 install.packages("RColorBrewer")
+install.packages("plotly")
 ```
 
-Next you'll need to "activate" the individual libraries. 
-```{r packages, results="hide", warning=FALSE, message=FALSE}
+Next you "activate" the packages.
+```{r activatepackages, results="hide", warning=FALSE, message=FALSE}
 library(ggplot2)
 library(dplyr)
 library(RColorBrewer)
 library(plotly)
 ```
 
-### What years saw the greatest amount of game releases?
-
+Loading Data
 ```{r}
 vgsales=read.csv("C:\\Users\\Prithvi Kinariwala\\Documents\\video-games-with-R\\vgsales.csv")
+```
+
+## What years saw the greatest amount of game releases?
+
+We take the `ggplot` function from the main report and pass it through a `ggplotly` function as a parameter.
+```{r interactive-timegraph}
 yeargames=vgsales
 yeargames<-yeargames[!(yeargames$Year=="N/A" ),]
-```
-```{r Interactive-timegraph}
 graph1 = ggplot(data = yeargames, mapping = aes(x =Year, fill= Platform))+
   geom_bar()+
   theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))+
@@ -38,3 +48,89 @@ graph1 = ggplot(data = yeargames, mapping = aes(x =Year, fill= Platform))+
 
 ggplotly(graph1)
 ```
+
+## Are certain gaming platforms more violent than others?
+We'll do the same data wrangling and pass the resultant `ggplot` as a parameter into the `ggploty` function.
+
+```{r}
+violentgames=vgsales
+
+# For-loop to classify certain genres as Violent and others as Non-violent
+Violent = NULL
+for(i in 1:nrow(violentgames))
+{
+    if(violentgames[i,5]=="Action"|violentgames[i,5]=="Fighting"|violentgames[i,5]=="Shooter" ){Violent[i]<-"Violent"}
+    else{Violent[i]<-"Not Violent"}
+}
+
+# For-loop to classify platforms by platform manufacterers 
+ConsoleMaker = NULL
+for(i in 1:nrow(violentgames))
+{
+  if(violentgames[i,3]=="DS"|violentgames[i,3]=="3DS"|violentgames[i,3]=="GB"|violentgames[i,3]=="GBA"|violentgames[i,3]=="N64"|violentgames[i,3]=="NES"|violentgames[i,3]=="Wii"|violentgames[i,3]=="WiiU"){ConsoleMaker[i]<-"Nintendo"}
+  else if(violentgames[i,3]=="PS"|violentgames[i,3]=="PS2"|violentgames[i,3]=="PS3"|violentgames[i,3]=="PS4"|violentgames[i,3]=="PSP"|violentgames[i,3]=="PSV"){ConsoleMaker[i]<-"Sony"}
+  else if(violentgames[i,3]=="X360"|violentgames[i,3]=="XB"|violentgames[i,3]=="XOne"){ConsoleMaker[i]<-"Microsoft"}
+  else{violentgames[-i]}
+}
+
+violentData=cbind(violentgames,Violent,ConsoleMaker)
+violentData <- na.omit(violentData)
+```
+
+Interactive Stacked Bar Graph:
+```{r violentgraph-counts}
+graph2A = ggplot(data = violentData, mapping = aes(x =Platform,fill= Violent)) + 
+  geom_bar()+facet_wrap(~ConsoleMaker)+
+  labs(y="Number of Video Games",title = "Violence in Video Games by Major Platform Making Companies")+
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))+scale_fill_manual(values = c("steelblue1","tomato2"))
+
+ggplotly(graph2A)
+```
+  
+Interactive Percent Bar Graph:
+```{r violentgraph-percents}
+graph2B = ggplot(data = violentData, mapping = aes(x =Platform,fill= Violent))+ 
+  geom_bar(position="fill")+facet_wrap(~ConsoleMaker)+
+  labs(y="Percent Composition",title = "Violence in Video Games by Platform Making Companies")+
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))+scale_fill_manual(values = c("steelblue1","tomato2"))
+
+ggplotly(graph2B)
+```
+
+## Is PlayStation better than Xbox?
+### Is the proportion of PlayStation games greater than Xbox games?
+```{r xbox_or_playstation}
+vgsales2 = vgsales %>%
+  mutate(Xbox_or_Playstation = ifelse(grepl("X", Platform), "Xbox", ifelse(grepl("PS", Platform), "PlayStation", NA)))
+
+vgsales2 = vgsales2[-(which(vgsales2$Platform == "PCFX")),]
+vgsales3 = vgsales2[-(which(vgsales2$Platform == "PSP" | vgsales2$Platform == "PSV")),]
+vgsales4 = na.omit(vgsales3)
+
+graph3 = ggplot(vgsales3, aes(x = Xbox_or_Playstation)) + geom_bar(fill = brewer.pal(3, "Set1"))+labs(y="Count", x="Console" ,title = "Video Games per Platform")
+
+ggplotly(graph3)
+```
+
+## Are North American or Japanese sales better at indicating how a video game does globally?
+
+**NA/Global Sales Scatterplot:**
+```{r naglobal, warning=FALSE,message=FALSE}
+graph4A = ggplot(data = vgsales, mapping = aes(x = NA_Sales, y =Global_Sales))+   
+  geom_point(alpha=0.25)+
+  labs(x = "North America Sales (million)",y="Global Sales (million)",title="Global Sales by North American Sales")+
+  geom_smooth(method = "lm", se = FALSE)
+
+ggplotly(graph4A)
+```
+
+**JP/Global Sales Scatterplot:**
+```{r jpglobal, warning=FALSE,message=FALSE}
+graph4B = ggplot(data = vgsales, mapping = aes(x = JP_Sales, y =Global_Sales))+   
+  geom_point(alpha=0.25)+
+  labs(x = "Japan Sales (million)",y="Global Sales (million)",title="Global Sales by Japanese Sales")+
+  geom_smooth(method = "lm", se = FALSE)
+
+ggplotly(graph4B)
+```
+
