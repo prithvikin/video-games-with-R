@@ -12,7 +12,7 @@ Harnessing  R to create powerful data visualizations and statistical tests on a 
 Due to compatibility issues between GitHub and Plotly, all interactive graphs are hosted externally on [at the project's page on RPubs.com](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs).
 
 ## Overview
-This project answers specific research questions with a public Video Game data set. Research questions are answered using data visualization and statistical analysis techniques availible in R.  
+This project answers specific research questions with a public Video Game data set. Research questions are answered using data visualization and statistical analysis techniques available in R.  
 
 **Major Questions:**
 1. What years saw the greatest amount of game releases?
