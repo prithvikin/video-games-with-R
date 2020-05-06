@@ -43,7 +43,7 @@ However, what pushes some games to the top and others to crash? What
 platforms are more “violent?” What region loves their sacred controllers
 and game cartridges the most? Would releasing a game in North America be
 more beneficial than releasing in Japan? Although these are questions of
-an over-achieving gamer, the quest was to get the bottom of some of them
+an over-achieving gamer, the quest is to get the bottom of some of them
 with R and a public dataset.
 
 ### The Data
@@ -146,9 +146,11 @@ ggplot(data = yeargames, mapping = aes(x =Year, fill= Platform))+
 ```
 
 ![](R-Analysis-of-Video-Games_files/figure-gfm/timegraph-1.png)<!-- -->
+
 *An interactive version of this graph (and the steps to create it) can
 be found [at the project’s page on
-RPubs.com](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs)*  
+RPubs.com](https://rpubs.com/prithvikin/video-games-with-R-InteractiveGraphs)*
+
 The maximum in the timeframe with given data was 2008 and 2009. This
 peak can be attributed to an overlap between the Sixth Console
 Generation (1998-2013) and Seventh Console Generation (2005-present) as
