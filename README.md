@@ -1,5 +1,5 @@
 # Video Games with R
-Harnessing the power of R to create multiple data visualizations and statistical tests on a data set of video games published from 1980 to 2016. 
+Harnessing  R to create powerful data visualizations and statistical tests on a data set of video games from 1980 to 2016. 
 ## Table of Contents
 * [R-Analysis-of-Video-Games.md](R-Analysis-of-Video-Games.md): Main report in HTML/GitHub Format
 * [R-Analysis-of-Video-Games.Rmd](R-Analysis-of-Video-Games.Rmd): R Markdown code that created main report
