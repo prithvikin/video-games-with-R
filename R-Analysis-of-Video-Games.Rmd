@@ -409,5 +409,3 @@ The dataset didn’t contain information on games released for the year 2017 and
 > "The numbers, Mason! What do they mean?" -Jason Hudson, Call of Duty: Black Ops
   
 Some of the key findings were that 2008 and 2009 featured the greatest number of games entering the market due to an overlap in console generations. Microsoft and Sony platforms tend to have more violent games than Nintendo platforms, due to the console brand’s target audiences. Shooting games were more popular in America compared to other regions, perhaps because of the country’s fascination with guns and their ownership along with the establishment of longtime shooter franchises. PlayStation ranked better than Xbox on our indicator of game variety, and Xbox ranked better on sales in North America. However, they both were inconclusive based on global sales. Our last finding concluded that the North American market is a better indicator of how a game released domestically would do internationally than the Japanese market. 
-
-It has been one heck of a journey, it's only a matter of time until we embark on our next one!
